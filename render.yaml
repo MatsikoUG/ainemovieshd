@@ -2,10 +2,9 @@ services:
   - type: web
     name: aine-movies-hd
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install --no-cache-dir -r requirements.txt
     startCommand: gunicorn src.main:app --worker-class eventlet
+    pythonVersion: "3.9"
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.10.13"
       - key: SECRET_KEY
         value: "your-secret-key-change-this"
