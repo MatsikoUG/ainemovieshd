@@ -1,0 +1,9 @@
+fzmovies-api[all]
+flask
+flask-socketio
+eventlet
+requests
+python-dotenv
+Pillow
+tmdbv3api
+gunicorn

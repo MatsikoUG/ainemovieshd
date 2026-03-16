@@ -1,0 +1,6 @@
+@echo off
+python -m venv venv
+call venv\Scripts\activate
+pip install -r requirements.txt
+echo Setup complete. Run python src/main.py to start the application.
+pause
