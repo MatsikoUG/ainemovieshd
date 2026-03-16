@@ -1,4 +1,3 @@
-from fzmovies_api import Auto, search
 from threading import Thread
 from queue import Queue
 import time
@@ -114,7 +113,7 @@ class AineDownloader:
         } for m in movies]
 
     def _download_movie(self, task):
-        """Actual download using fzmovies_api"""
+        """Handle movie downloads - shows streaming info instead"""
         query = task['query']
         quality = task['quality']
         save_path = task['save_path']
@@ -123,16 +122,13 @@ class AineDownloader:
         self.socketio.emit('download_started', {'name': query})
 
         try:
-            # Note: fzmovies_api Auto.run() handles the download
-            # For progress, we might need to hook into it or simulate
-            self.logger.info(f"Download started for {query}")
-            downloader = Auto(query=query, quality=quality)
-            # Assuming run() blocks and shows progress, but for web, we emit start and end
-            downloader.run()
-            self.socketio.emit('download_completed', {'name': query})
-            self.logger.info(f"Download completed for {query}")
+            self.logger.info(f"Download requested for {query}")
+            # On web deployment, show where to stream instead of downloading
+            # Users can stream legally via the watch providers shown in movie details
+            self.socketio.emit('download_completed', {'name': query, 'message': 'Streaming links available in movie details'})
+            self.logger.info(f"Streaming info shown for {query}")
         except Exception as e:
-            self.logger.error(f"Download failed for {query}: {e}")
+            self.logger.error(f"Download error for {query}: {e}")
             self.socketio.emit('download_failed', {'name': query, 'error': str(e)})
         finally:
             self.active_downloads.remove(query)

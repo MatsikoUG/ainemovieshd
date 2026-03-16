@@ -1,4 +1,3 @@
-fzmovies-api[all]
 flask
 flask-socketio
 eventlet
